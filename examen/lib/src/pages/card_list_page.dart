@@ -1,7 +1,10 @@
-import 'package:examen/src/models/credit_card_model.dart';
-import 'package:examen/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+
 import 'package:qrscan/qrscan.dart' as scanner;
+
+import 'package:examen/src/models/credit_card_model.dart';
+import 'package:examen/src/pages/new_card_page.dart';
+import 'package:examen/src/utils/utils.dart';
 
 class CardListPage extends StatefulWidget{
   @override
@@ -101,7 +104,7 @@ class _CardListPageState extends State<CardListPage> {
                           ),
                           onTap: (){
                             Navigator.push(context,MaterialPageRoute(
-                                builder: (context) => CardListPage()
+                                builder: (context) => NewCardPage()
                             ));
                           },
                         )

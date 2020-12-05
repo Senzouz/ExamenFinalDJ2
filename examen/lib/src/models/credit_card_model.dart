@@ -23,15 +23,17 @@ class CreditCardModel extends StatelessWidget{
       width: MediaQuery.of(context).size.width*0.9,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
+              SizedBox(width: 30),
               Image(image: AssetImage("assets/images/${imagePath}.png")),
-              Text(name)
+              SizedBox(width: 10),
+              Text(name,style: TextStyle(fontWeight: FontWeight.bold),)
             ],
           ),
           Icon(Icons.keyboard_arrow_right)
