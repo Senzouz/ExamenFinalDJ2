@@ -1,8 +1,26 @@
+import 'package:examen/src/models/credit_card_model.dart';
 import 'package:examen/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
-class CardListPage extends StatelessWidget{
+class CardListPage extends StatefulWidget{
+  @override
+  _CardListPageState createState() => _CardListPageState();
+}
+
+class _CardListPageState extends State<CardListPage> {
+  List<CreditCard> cards;
+
+  @override
+  void initState() {
+    cards = new List<CreditCard>();
+    cards.add(new CreditCard(name: 'MasterCard',imagePath: 'image10'));
+    cards.add(new CreditCard(name: 'Visa',imagePath: 'image11'));
+    cards.add(new CreditCard(name: 'JCB',imagePath: 'image12'));
+    cards.add(new CreditCard(name: 'American Express',imagePath: 'image13'));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,26 +65,28 @@ class CardListPage extends StatelessWidget{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(child: Text("Select a credit card",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),padding: EdgeInsets.only(left: 20)),
-                            GestureDetector(
-                                child: Icon(Icons.camera_alt_outlined),
-                              onTap: () async{
-                                String cameraScanResult = await scanner.scan();
-                                launchURL(context, cameraScanResult)
-                              },
+                            Container(
+                              padding: EdgeInsets.only(right: 20),
+                              child: GestureDetector(
+                                  child: Icon(Icons.camera_alt_outlined),
+                                onTap: () async{
+                                  String cameraScanResult = await scanner.scan();
+                                  launchURL(context, cameraScanResult);
+                                },
+                              ),
                             )
                           ],
                         ),
-                        SizedBox(height: 20,),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 80,
-                          width: MediaQuery.of(context).size.width*0.9,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                        SizedBox(height: 20),
+                        ListView.separated(
+                            itemCount: cards.length,
+                            separatorBuilder: (context,i) => const Divider(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context,i){
+                              return CreditCardModel(name: cards[i].name,imagePath: cards[i].imagePath);
+                            },
                           ),
-                          child: Text('Rp.76.547.000,-',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,fontStyle: FontStyle.italic,),),
-                        ),
                         SizedBox(height: 20),
                         GestureDetector(
                           child: Container(
@@ -77,17 +97,14 @@ class CardListPage extends StatelessWidget{
                               color: Colors.blueAccent,
                               borderRadius: BorderRadius.circular(50),
                             ),
-                            child: Text('TOP UP',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: Colors.white),),
+                            child: Text('ADD CARD',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: Colors.white),),
                           ),
                           onTap: (){
                             Navigator.push(context,MaterialPageRoute(
                                 builder: (context) => CardListPage()
                             ));
                           },
-                        ),
-                        SizedBox(height: 20,),
-                        Container(child: Text("Qr Code",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),margin: EdgeInsets.only(right: 250),),
-                        Image(image: AssetImage('assets/images/image14.png'))
+                        )
                       ],
                     ),
                   )
@@ -98,5 +115,4 @@ class CardListPage extends StatelessWidget{
         )
     );
   }
-  
 }
